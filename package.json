@@ -1,0 +1,14 @@
+{
+  "name": "origami",
+  "version": "0.0.0",
+  "description": "APIs made easy",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon ./example-server.js"
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "axiand",
+  "license": "MIT"
+}
