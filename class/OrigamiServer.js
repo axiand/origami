@@ -1,4 +1,5 @@
 const http = require('http')
+const { removeTrailingSlash } = require('../shared/removeTrailingSlash')
 
 class OrigamiServer {
     constructor(port, parent) {
@@ -8,6 +9,18 @@ class OrigamiServer {
 
     listen = function() {
         this.Server = http.createServer(async (req, res) => {
+            let parsedUrl = removeTrailingSlash(req.url)
+            let rt = this.Parent.routes.getRoute(parsedUrl)
+            //console.log('Returned route', rt)
+
+            if(!rt) {
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.write('404 Not Found')
+                res.end();
+
+                return
+            }
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.write(JSON.stringify(this.Parent.routes, null, 4))
             res.end();

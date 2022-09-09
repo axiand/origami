@@ -38,6 +38,34 @@ class RouteStore {
 
         return
     }
+
+    getRoute = function(path) {
+        let pathArr = path.split('/')
+        let idx = 0
+
+        let rt = this.routeTreeGet(pathArr, idx, this.RouteTree)
+        return rt
+    }
+
+    routeTreeGet = function(pathArr, idx, object) {
+        //console.log(pathArr, idx, pathArr.length - 1, pathArr[idx], object)
+
+        if(!object) return null
+
+        let CurIdx = pathArr[idx]
+
+        let r = null
+
+        if(idx == pathArr.length - 1) {
+            if(object[CurIdx]) r = object[CurIdx]
+
+            if(object['*']) r = object['*']
+        } else {
+            r = this.routeTreeGet(pathArr, idx + 1, object['*']?.children || object[CurIdx]?.children)
+        }
+
+        return r
+    }
 }
 
 module.exports.RouteStore = RouteStore

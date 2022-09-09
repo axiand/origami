@@ -13,7 +13,8 @@ let d = Date.now()
 
 app.mountRoute(new Route('v1/users/:user', () => {}))
 
-app.mountRoute(new Route('v1/posts/:post', () => {}))
+app.mountRoute(new Route('///v1/posts/:post////', () => {}))
 
+app.mountRoute(new Route('/v1/messages/:channel/pinned', () => {}))
 
 console.log(`${Date.now() - d}ms`)

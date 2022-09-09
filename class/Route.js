@@ -1,6 +1,8 @@
+const { removeTrailingSlash } = require("../shared/removeTrailingSlash")
+
 class Route {
     constructor(path, resolver) {
-        this.path = path
+        this.path = removeTrailingSlash(path)
         this.resolver = resolver
     }
 }
