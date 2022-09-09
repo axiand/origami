@@ -1,14 +1,15 @@
 const http = require('http')
 
 class OrigamiServer {
-    constructor(port) {
+    constructor(port, parent) {
         this.port = port
+        this.Parent = parent
     }
 
     listen = function() {
         this.Server = http.createServer((req, res) => {
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.write(JSON.stringify({'message': "Hello, World!"}))
+            res.write(JSON.stringify(this.Parent.routes))
             res.end();
         })
 
