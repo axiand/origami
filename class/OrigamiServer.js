@@ -7,9 +7,9 @@ class OrigamiServer {
     }
 
     listen = function() {
-        this.Server = http.createServer((req, res) => {
+        this.Server = http.createServer(async (req, res) => {
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.write(JSON.stringify(this.Parent.routes))
+            res.write(JSON.stringify(this.Parent.routes, null, 4))
             res.end();
         })
 

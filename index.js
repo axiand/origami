@@ -17,8 +17,8 @@ class Origami {
         cback(this)
     }
 
-    mountRoute = function(path) {
-        return this.routes.mountRoute(path)
+    mountRoute = function(route) {
+        return this.routes.mountRoute(route)
     }
 }
 

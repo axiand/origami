@@ -1,3 +1,4 @@
+const { Route } = require('./class/Route.js')
 const { Origami } = require('./index.js')
 
 // Create an app running on port 3000
@@ -10,11 +11,9 @@ app.listen((app) => {
 
 let d = Date.now()
 
-app.mountRoute('v1/users/:user/posts')
-app.mountRoute('v1/users/:user/posts/:post')
-app.mountRoute('v1/blogs/:blog')
-app.mountRoute('v1/users')
-app.mountRoute('v1/users/:user/comments/:comment/likes/:like/remove/confirm')
-app.mountRoute('v1/users/:user/comments/:comment/likes/:like/add/confirm')
+app.mountRoute(new Route('v1/users/:user', () => {}))
+
+app.mountRoute(new Route('v1/posts/:post', () => {}))
+
 
 console.log(`${Date.now() - d}ms`)

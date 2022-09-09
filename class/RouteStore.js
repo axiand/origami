@@ -3,16 +3,16 @@ class RouteStore {
         this.RouteTree = {}
     }
 
-    mountRoute = function(path) {
-        let pathArr = path.split('/')
+    mountRoute = function(route) {
+        let pathArr = route.path.split('/')
         let idx = 0
 
-        this.routeTreeAdd(pathArr, idx, this.RouteTree)
+        this.routeTreeAdd(pathArr, idx, this.RouteTree, route)
 
         //console.log(JSON.stringify(this.RouteTree, ' ', 3))
     }
 
-    routeTreeAdd = function(pathArr, idx, object) {
+    routeTreeAdd = function(pathArr, idx, object, route) {
         //console.log(pathArr, idx, pathArr.length - 1, object)
 
         if(idx == pathArr.length) return
@@ -28,7 +28,7 @@ class RouteStore {
         if(!object[symbol] || object[symbol].stub) {
             object[symbol] = {
                 'name': CurIdx,
-                'resolver': null,
+                'route': idx == pathArr.length - 1 ? route : null,
                 'stub': idx == pathArr.length - 1 ? false : true,
                 'children': object[symbol]?.children || {},
             }
