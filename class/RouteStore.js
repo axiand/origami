@@ -34,7 +34,7 @@ class RouteStore {
             }
         }
 
-        this.routeTreeAdd(pathArr, idx + 1, object[symbol].children)
+        this.routeTreeAdd(pathArr, idx + 1, object[symbol].children, route)
 
         return
     }
@@ -60,6 +60,8 @@ class RouteStore {
             if(object[CurIdx]) r = object[CurIdx]
 
             if(object['*']) r = object['*']
+
+            if(r.stub) r = null
         } else {
             r = this.routeTreeGet(pathArr, idx + 1, object['*']?.children || object[CurIdx]?.children)
         }

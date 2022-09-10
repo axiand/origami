@@ -4,6 +4,8 @@ class Route {
     constructor(path, resolver) {
         this.path = removeTrailingSlash(path)
         this.resolver = resolver
+
+        return this
     }
 }
 

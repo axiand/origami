@@ -17,4 +17,6 @@ app.mountRoute(new Route('///v1/posts/:post////', () => {}))
 
 app.mountRoute(new Route('/v1/messages/:channel/pinned', () => {}))
 
+app.mountRoute(new Route('/v1/messages/', () => {}))
+
 console.log(`${Date.now() - d}ms`)

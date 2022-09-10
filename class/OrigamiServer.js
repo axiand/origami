@@ -11,7 +11,7 @@ class OrigamiServer {
         this.Server = http.createServer(async (req, res) => {
             let parsedUrl = removeTrailingSlash(req.url)
             let rt = this.Parent.routes.getRoute(parsedUrl)
-            //console.log('Returned route', rt)
+            console.log('Returned route', rt)
 
             if(!rt) {
                 res.writeHead(404, { 'Content-Type': 'text/plain' });
