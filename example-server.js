@@ -11,7 +11,10 @@ app.listen((app) => {
 
 let d = Date.now()
 
-app.mountRoute(new Route('v1/users/:user', () => {}))
+app.mountRoute(new Route('v1/users/:user', (ctx, res) => {
+    console.log(ctx)
+    console.log(res)
+}))
 
 app.mountRoute(new Route('///v1/posts/:post////', () => {}))
 

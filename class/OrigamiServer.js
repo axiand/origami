@@ -1,5 +1,7 @@
 const http = require('http')
 const { removeTrailingSlash } = require('../shared/removeTrailingSlash')
+const { RequestContext } = require('./RequestContext')
+const { RequestResponse } = require('./RequestResponse')
 
 class OrigamiServer {
     constructor(port, parent) {
@@ -20,6 +22,11 @@ class OrigamiServer {
 
                 return
             }
+
+            let resp = rt.route.resolver(
+                new RequestContext(), 
+                new RequestResponse()
+            )
 
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.write(JSON.stringify(this.Parent.routes, null, 4))

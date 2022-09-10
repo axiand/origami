@@ -61,7 +61,7 @@ class RouteStore {
 
             if(object['*']) r = object['*']
 
-            if(r.stub) r = null
+            if(!r || r.stub) r = null
         } else {
             r = this.routeTreeGet(pathArr, idx + 1, object['*']?.children || object[CurIdx]?.children)
         }
