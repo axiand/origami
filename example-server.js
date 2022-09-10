@@ -15,12 +15,23 @@ app.mountRoute(new Route('v1/users/:user', (ctx, res) => {
     res.setHeadMany({
         'a': 'b',
         'c': 'd',
-        'Refresh': 1000,
-        'Content-Length': 300,
     })
+
+    res.write(
+        {
+            'user': 6,
+            'name': 'Axi',
+            'about': 'fdsgasdg',
+            'rand': Math.random()
+        }
+    )
+
+    return res
 }))
 
-app.mountRoute(new Route('///v1/posts/:post////', () => {}))
+app.mountRoute(new Route('///v1/posts/:post////', (ctx, res) => {
+    return res 
+}))
 
 app.mountRoute(new Route('/v1/messages/:channel/pinned', () => {}))
 

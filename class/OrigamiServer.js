@@ -16,7 +16,7 @@ class OrigamiServer {
         this.Server = http.createServer(async (req, res) => {
             let parsedUrl = removeTrailingSlash(req.url)
             let rt = this.Parent.routes.getRoute(parsedUrl)
-            console.log('Returned route', rt)
+            //console.log('Returned route', rt)
 
             if(!rt) {
                 res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -26,14 +26,17 @@ class OrigamiServer {
                 return
             }
 
-            let resp = rt.route.resolver(
+            let resolved = rt.route.resolver(
                 new RequestContext(this), 
                 new RequestResponse()
             )
 
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.write(JSON.stringify(this.Parent.routes, null, 4))
+            let { head, status, write } = this.handler.proc(resolved)
+
+            res.writeHead(status, head)
+            res.write(write)
             res.end();
+            return
         })
 
         this.Server.listen(this.port)

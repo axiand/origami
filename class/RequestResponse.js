@@ -8,7 +8,7 @@ class RequestResponse {
         return this
     }
 
-    write = function(body, status = 200) {
+    write = function(body, status) {
         this.body = body
 
         if(status) this.status = status
