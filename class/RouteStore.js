@@ -30,6 +30,7 @@ class RouteStore {
                 'name': CurIdx,
                 'route': idx == pathArr.length - 1 ? route : null,
                 'stub': idx == pathArr.length - 1 ? false : true,
+                'includes': CurIdx.startsWith(':') ? CurIdx.slice(1) : null,
                 'children': object[symbol]?.children || {},
             }
         }
@@ -43,16 +44,24 @@ class RouteStore {
         let pathArr = path.split('/')
         let idx = 0
 
-        let rt = this.routeTreeGet(pathArr, idx, this.RouteTree)
-        return rt
+        let { route, includes } = this.routeTreeGet(pathArr, idx, this.RouteTree, {})
+        return { route: route, includes: includes }
     }
 
-    routeTreeGet = function(pathArr, idx, object) {
+    routeTreeGet = function(pathArr, idx, object, includes) {
         //console.log(pathArr, idx, pathArr.length - 1, pathArr[idx], object)
 
-        if(!object) return null
+        if(!object) return {
+            route: null,
+            includes: includes
+        }
 
         let CurIdx = pathArr[idx]
+
+        let iTarget = object[CurIdx]||object['*']
+        if(iTarget && iTarget.includes) {
+            includes[iTarget.includes] = CurIdx
+        }
 
         let r = null
 
@@ -63,10 +72,13 @@ class RouteStore {
 
             if(!r || r.stub) r = null
         } else {
-            r = this.routeTreeGet(pathArr, idx + 1, object['*']?.children || object[CurIdx]?.children)
+            r = this.routeTreeGet(pathArr, idx + 1, object['*']?.children || object[CurIdx]?.children, includes).route
         }
 
-        return r
+        return {
+            route: r,
+            includes: includes
+        }
     }
 }
 

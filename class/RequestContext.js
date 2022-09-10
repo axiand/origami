@@ -1,6 +1,7 @@
 class RequestContext {
-    constructor(server) {
+    constructor(server, context) {
         this.ServerContext = server
+        this.includes = context.includes
 
         return this
     }

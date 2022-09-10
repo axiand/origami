@@ -30,11 +30,19 @@ app.mountRoute(new Route('v1/users/:user', (ctx, res) => {
 }))
 
 app.mountRoute(new Route('///v1/posts/:post////', (ctx, res) => {
-    return res 
+    return {res}
 }))
 
-app.mountRoute(new Route('/v1/messages/:channel/pinned', () => {}))
+app.mountRoute(new Route('/v1/messages/:group/:channel/pinned', (ctx, res) => {
+    console.log(ctx.includes)
 
-app.mountRoute(new Route('/v1/messages/', () => {}))
+    return ctx.includes
+}))
+
+app.mountRoute(new Route('/v1/messages/', (ctx, res) => {
+    res.write(ctx.GetApp().routes)
+
+    return res
+}))
 
 console.log(`${Date.now() - d}ms`)

@@ -15,10 +15,11 @@ class OrigamiServer {
     listen = function() {
         this.Server = http.createServer(async (req, res) => {
             let parsedUrl = removeTrailingSlash(req.url)
-            let rt = this.Parent.routes.getRoute(parsedUrl)
-            //console.log('Returned route', rt)
+            let { route, includes } = this.Parent.routes.getRoute(parsedUrl)
+            //console.log('Returned route', route)
+            //console.log('Returned includes', includes)
 
-            if(!rt) {
+            if(!route) {
                 res.writeHead(404, { 'Content-Type': 'text/plain' });
                 res.write('404 Not Found')
                 res.end();
@@ -26,8 +27,12 @@ class OrigamiServer {
                 return
             }
 
-            let resolved = rt.route.resolver(
-                new RequestContext(this), 
+            let resolved = route.route.resolver(
+                new RequestContext(this,
+                    {
+                        includes: includes
+                    }
+                ), 
                 new RequestResponse()
             )
 
