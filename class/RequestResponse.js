@@ -35,8 +35,8 @@ class RequestResponse {
     }
 
     setHeadMany = function(collection) {
-        for(head of Object.keys(collection)) {
-            console.log(head)
+        for(let head in collection) {
+            this.setHead(head, collection[head])
         }
 
         return this
