@@ -1,3 +1,4 @@
+const { RequestError } = require('./class/RequestError.js')
 const { Route } = require('./class/Route.js')
 const { Origami } = require('./index.js')
 
@@ -12,21 +13,7 @@ app.listen((app) => {
 })
 
 app.mountRoute(new Route('GET', 'v1/users/:user', (ctx, res) => {
-    res.setHeadMany({
-        'a': 'b',
-        'c': 'd',
-    })
-
-    res.write(
-        {
-            'user': 6,
-            'name': 'Axi',
-            'about': 'fdsgasdg',
-            'rand': Math.random()
-        }
-    )
-
-    return res
+    return res.error(400, Math.random())
 }))
 
 app.mountRoute(new Route('POST', '///v1/posts/:post////', (ctx, res) => {
@@ -34,8 +21,6 @@ app.mountRoute(new Route('POST', '///v1/posts/:post////', (ctx, res) => {
 }))
 
 app.mountRoute(new Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
-    gregerthg
-
     return res
         .write(ctx.body)
 }))

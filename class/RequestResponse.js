@@ -1,3 +1,5 @@
+const { RequestError } = require("./RequestError")
+
 class RequestResponse {
     constructor() {
         this.status = 200
@@ -40,6 +42,12 @@ class RequestResponse {
         }
 
         return this
+    }
+
+    error = function(status, message) {
+        let e = new RequestError(status, message)
+
+        return e
     }
 }
 

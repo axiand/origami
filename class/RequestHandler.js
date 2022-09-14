@@ -1,6 +1,8 @@
 class RequestHandler {
     constructor() {
         return this
+
+        this.AllowedClasses = ['RequestResponse', 'Object', 'RequestError']
     }
 
     proc = function(resolverResponse) {
@@ -13,8 +15,10 @@ class RequestHandler {
                 return this.handleRequestResponse(resolverResponse)
             case('Object'):
                 return this.handleRawObject(resolverResponse)
+            case('RequestError'):
+                return this.handleError(resolverResponse)
             default:
-                throw new Error(`Request response type is invalid. Expected RequestResponse or Object, got ${resolverResponse.constructor.name}`)
+                throw new Error(`Request response type is invalid. Expected one of: ${this.AllowedClasses.join(', ')}. got ${resolverResponse.constructor.name}`)
         }
     }
 
@@ -36,6 +40,23 @@ class RequestHandler {
         let head = { 'Content-Type': 'application/json'}
         let status = 200
         let write = JSON.stringify(obj)
+
+        return {
+            head: head,
+            status: status,
+            write: write,
+        }
+    }
+
+    handleError = function(err) {
+        let head = {}
+        let status = err.status
+        let write = JSON.stringify(
+            {
+                'status': err.status,
+                'message': err.message
+            }
+        )
 
         return {
             head: head,
