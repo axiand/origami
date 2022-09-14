@@ -45,7 +45,7 @@ class RequestResponse {
     }
 
     error = function(status, message) {
-        let e = new RequestError(status, message)
+        let e = new RequestError(status, message, code)
 
         return e
     }
