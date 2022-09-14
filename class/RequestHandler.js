@@ -53,7 +53,7 @@ class RequestHandler {
         let status = err.status
         let write = JSON.stringify(
             {
-                'status': err.status,
+                'code': err.code,
                 'message': err.message
             }
         )
