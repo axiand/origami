@@ -1,3 +1,4 @@
+const { OrigamiMounter } = require("./class/Mounter")
 const { OrigamiServer } = require("./class/OrigamiServer")
 const { RouteStore } = require("./class/RouteStore")
 
@@ -8,6 +9,8 @@ class Origami {
 
         this.server = new OrigamiServer(this.port, this)
 
+        this.mounter = new OrigamiMounter(this)
+
         this.routes = new RouteStore()
     }
 
@@ -17,8 +20,8 @@ class Origami {
         cback(this)
     }
 
-    mountRoute = function(route) {
-        return this.routes.mountRoute(route)
+    Mount = function(thing) {
+        return this.mounter.mount(thing)
     }
 }
 

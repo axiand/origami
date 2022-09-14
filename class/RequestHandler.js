@@ -1,8 +1,8 @@
 class RequestHandler {
     constructor() {
-        return this
-
         this.AllowedClasses = ['RequestResponse', 'Object', 'RequestError']
+
+        return this
     }
 
     proc = function(resolverResponse) {

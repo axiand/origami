@@ -12,20 +12,20 @@ app.listen((app) => {
     console.log(`Server running on port ${app.port} - http://localhost:${app.port}/`)
 })
 
-app.mountRoute(new Route('GET', 'v1/users/:user', (ctx, res) => {
-    return res.error(400, Math.random(), 'ERR_NOT_ALLOWED')
+app.Mount(new Route('GET', 'v1/users/:user', (ctx, res) => {
+    return res.write(['array', 'fdfegesrd'])
 }))
 
-app.mountRoute(new Route('POST', '///v1/posts/:post////', (ctx, res) => {
+app.Mount(new Route('POST', '///v1/posts/:post////', (ctx, res) => {
     return {res}
 }))
 
-app.mountRoute(new Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
+app.Mount(new Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
     return res
         .write(ctx.body)
 }))
 
-app.mountRoute(new Route('DELETE', '/v1/messages/', (ctx, res) => {
+app.Mount(new Route('DELETE', '/v1/messages/', (ctx, res) => {
     res.write(ctx.GetApp().routes)
 
     return res
