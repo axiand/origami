@@ -12,23 +12,23 @@ app.listen((app) => {
     console.log(`Server running on port ${app.port} - http://localhost:${app.port}/`)
 })
 
-app.Mount(new Route('GET', 'v1/users/:user', (ctx, res) => {
+app.Route('GET', 'v1/users/:user', (ctx, res) => {
     return res.write(['array', 'fdfegesrd'])
-}))
+})
 
-app.Mount(new Route('POST', '///v1/posts/:post////', (ctx, res) => {
+app.Route('POST', '///v1/posts/:post////', (ctx, res) => {
     return {res}
-}))
+})
 
-app.Mount(new Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
+app.Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
     return res
         .write(ctx.body)
-}))
+})
 
-app.Mount(new Route('DELETE', '/v1/messages/', (ctx, res) => {
+app.Route('DELETE', '/v1/messages/', (ctx, res) => {
     res.write(ctx.GetApp().routes)
 
     return res
-}))
+})
 
 console.log(`${Date.now() - d}ms`)
