@@ -1,7 +1,7 @@
 class RequestContext {
     constructor(server, context) {
         this.ServerContext = server
-        
+
         this.includes = context.includes
         this.body = context.body
         this.headers = context.headers
@@ -14,6 +14,10 @@ class RequestContext {
     }
     GetApp = function() {
         return this.ServerContext.Parent
+    }
+
+    getHead = function(k) {
+        return this.headers[k]
     }
 }
 
