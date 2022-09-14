@@ -3,6 +3,29 @@ class RouteStore {
         this.RouteTree = {}
     }
 
+    resolveUrlPart = function(part) {
+        if(part[0] == ":") {
+            let partContent = part.slice(1)
+
+            if(partContent.includes(' ')) {
+                let split = partContent.split(' ')
+
+                return {
+                    'includes': split[1],
+                    'typeName': split[0],
+                }
+            }
+
+            return {
+                'includes': partContent,
+                'typeName': null
+            }
+        } else { return {
+            'includes': part,
+            'typeName': null,
+        } }
+    }
+
     mountRoute = function(route) {
         let pathArr = route.path.split('/')
         let idx = 0
@@ -24,6 +47,8 @@ class RouteStore {
         if(object[symbol] && !object[symbol].stub && idx == pathArr.length - 1) {
             throw new Error(`Route with matcher ${pathArr.join('/')} already exists!`)
         }
+
+        console.log(this.resolveUrlPart(CurIdx))
 
         if(!object[symbol] || object[symbol].stub) {
             object[symbol] = {

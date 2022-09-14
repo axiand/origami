@@ -33,7 +33,7 @@ app.mountRoute(new Route('///v1/posts/:post////', (ctx, res) => {
     return {res}
 }))
 
-app.mountRoute(new Route('/v1/messages/:group/:channel/pinned', (ctx, res) => {
+app.mountRoute(new Route('/v1/messages/:Group group/:Channel channel/pinned', (ctx, res) => {
     console.log(ctx.includes)
 
     return ctx.includes
