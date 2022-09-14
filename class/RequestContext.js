@@ -1,7 +1,10 @@
 class RequestContext {
     constructor(server, context) {
         this.ServerContext = server
+        
         this.includes = context.includes
+        this.body = context.body
+        this.headers = context.headers
 
         return this
     }

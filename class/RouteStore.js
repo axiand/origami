@@ -1,6 +1,12 @@
+const { METHODS } = require("../shared/methods")
+
 class RouteStore {
     constructor() {
         this.RouteTree = {}
+
+        for(let method of METHODS) {
+            this.RouteTree[method] = {}
+        }
     }
 
     resolveUrlPart = function(part) {
@@ -20,17 +26,17 @@ class RouteStore {
                 'includes': partContent,
                 'typeName': null
             }
-        } else { return {
-            'includes': part,
+        } else return {
+            'includes': null,
             'typeName': null,
-        } }
+        }
     }
 
     mountRoute = function(route) {
         let pathArr = route.path.split('/')
         let idx = 0
 
-        this.routeTreeAdd(pathArr, idx, this.RouteTree, route)
+        this.routeTreeAdd(pathArr, idx, this.RouteTree[route.method], route)
 
         //console.log(JSON.stringify(this.RouteTree, ' ', 3))
     }
@@ -48,14 +54,15 @@ class RouteStore {
             throw new Error(`Route with matcher ${pathArr.join('/')} already exists!`)
         }
 
-        console.log(this.resolveUrlPart(CurIdx))
+        let { includes, typeName } = this.resolveUrlPart(CurIdx)
 
         if(!object[symbol] || object[symbol].stub) {
             object[symbol] = {
                 'name': CurIdx,
                 'route': idx == pathArr.length - 1 ? route : null,
                 'stub': idx == pathArr.length - 1 ? false : true,
-                'includes': CurIdx.startsWith(':') ? CurIdx.slice(1) : null,
+                'includes': includes,
+                'typeName': typeName,
                 'children': object[symbol]?.children || {},
             }
         }
@@ -65,11 +72,11 @@ class RouteStore {
         return
     }
 
-    getRoute = function(path) {
+    getRoute = function(path, method) {
         let pathArr = path.split('/')
         let idx = 0
 
-        let { route, includes } = this.routeTreeGet(pathArr, idx, this.RouteTree, {})
+        let { route, includes } = this.routeTreeGet(pathArr, idx, this.RouteTree[method], [])
         return { route: route, includes: includes }
     }
 
@@ -85,7 +92,11 @@ class RouteStore {
 
         let iTarget = object[CurIdx]||object['*']
         if(iTarget && iTarget.includes) {
-            includes[iTarget.includes] = CurIdx
+            includes.push({
+                'includeKey': CurIdx,
+                'includes': iTarget.includes,
+                'typeName': iTarget.typeName || null,
+            })
         }
 
         let r = null
