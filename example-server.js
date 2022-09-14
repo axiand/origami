@@ -13,7 +13,7 @@ app.listen((app) => {
 })
 
 app.mountRoute(new Route('GET', 'v1/users/:user', (ctx, res) => {
-    return res.error(400, Math.random())
+    return res.error(400, Math.random(), 'ERR_NOT_ALLOWED')
 }))
 
 app.mountRoute(new Route('POST', '///v1/posts/:post////', (ctx, res) => {

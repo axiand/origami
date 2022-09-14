@@ -44,7 +44,7 @@ class RequestResponse {
         return this
     }
 
-    error = function(status, message) {
+    error = function(status, message, code = 'BAD_REQUEST') {
         let e = new RequestError(status, message, code)
 
         return e
