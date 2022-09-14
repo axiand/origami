@@ -34,6 +34,8 @@ app.mountRoute(new Route('POST', '///v1/posts/:post////', (ctx, res) => {
 }))
 
 app.mountRoute(new Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
+    gregerthg
+
     return res
         .write(ctx.body)
 }))

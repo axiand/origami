@@ -39,22 +39,31 @@ class OrigamiServer {
 
                 body = Buffer.concat(body)
 
-                let resolved = route.route.resolver(
-                    new RequestContext(this,
-                        {
-                            includes: includes,
-                            body: body,
-                            headers: req.headers
-                        }
-                    ), 
-                    new RequestResponse()
-                )
-    
-                let { head, status, write } = this.handler.proc(resolved)
-    
-                res.writeHead(status, head)
-                res.write(write)
-                res.end();
+                try {
+
+                    let resolved = route.route.resolver(
+                        new RequestContext(this,
+                            {
+                                includes: includes,
+                                body: body,
+                                headers: req.headers
+                            }
+                        ), 
+                        new RequestResponse()
+                    )
+        
+                    let { head, status, write } = this.handler.proc(resolved)
+
+                    res.writeHead(status, head)
+                    res.write(write)
+                    res.end();
+                } catch(e) {
+                    console.error("\x1b[31m", `[origami/ERROR] An error occurred while resolving ${route.route.path}\n`, "\x1b[37m", e)
+
+                    res.writeHead(500, {})
+                    res.write('Internal Server Error')
+                    res.end();
+                }
 
             })
 
