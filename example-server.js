@@ -29,8 +29,8 @@ app.Route('DELETE', '/v1/messages/', (ctx, res) => {
     return res
 })
 
-app.Component('Channel', (key, meta, ctx) => {
-    //console.log(key, meta, ctx)
+app.Component('Channel')
+.gets((key, meta, ctx) => {
     return {'name': 'awesome-channel', 'id': key}
 })
 
