@@ -1,3 +1,4 @@
+const { ComponentStore } = require("./class/ComponentStore")
 const { OrigamiMounter } = require("./class/Mounter")
 const { OrigamiServer } = require("./class/OrigamiServer")
 const { Route } = require("./class/Route")
@@ -13,6 +14,7 @@ class Origami {
         this.mounter = new OrigamiMounter(this)
 
         this.routes = new RouteStore()
+        this.components = new ComponentStore()
     }
 
     listen = function(cback = () => {}) {
@@ -30,6 +32,7 @@ class Origami {
             new Route(method, path, resolver)
         )
     }
+    
 }
 
 module.exports.Origami = Origami

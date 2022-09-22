@@ -36,7 +36,7 @@ class RouteStore {
         let pathArr = route.path.split('/')
         let idx = 0
 
-        this.routeTreeAdd(pathArr, idx, this.RouteTree[route.method], route)
+        return this.routeTreeAdd(pathArr, idx, this.RouteTree[route.method], route)
 
         //console.log(JSON.stringify(this.RouteTree, ' ', 3))
     }
@@ -76,7 +76,7 @@ class RouteStore {
         let pathArr = path.split('/')
         let idx = 0
 
-        let { route, includes } = this.routeTreeGet(pathArr, idx, this.RouteTree[method], [])
+        let { route, includes } = this.routeTreeGet(pathArr, idx, this.RouteTree[method], {})
         return { route: route, includes: includes }
     }
 
@@ -92,11 +92,11 @@ class RouteStore {
 
         let iTarget = object[CurIdx]||object['*']
         if(iTarget && iTarget.includes) {
-            includes.push({
+            includes[iTarget.includes] = {
                 'includeKey': CurIdx,
                 'includes': iTarget.includes,
                 'typeName': iTarget.typeName || null,
-            })
+            }
         }
 
         let r = null

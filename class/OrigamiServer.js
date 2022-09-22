@@ -21,8 +21,6 @@ class OrigamiServer {
             //console.log('Returned route', route)
             //console.log('Returned includes', includes)
 
-            console.log(req.method)
-
             if(!route) {
                 res.writeHead(404, { 'Content-Type': 'text/plain' });
                 res.write('404 Not Found')

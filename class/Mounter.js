@@ -2,7 +2,7 @@ class OrigamiMounter {
     constructor(server) {
         this.server = server
 
-        this.allowedMounts = ['Route']
+        this.allowedMounts = ['Route', 'Component']
     }
 
     mount = function(thing) {
