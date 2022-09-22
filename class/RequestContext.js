@@ -44,8 +44,6 @@ class RequestContext {
         let rec = linkMethodToFunc(this.method)
         
         let baked = comp.recipe[rec](inc.key, meta, this)
-
-        console.log(baked)
         return baked
     }
 }

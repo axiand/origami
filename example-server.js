@@ -1,3 +1,6 @@
+//Please excuse the mess in this file. The project is in a very early state,
+//so this file is being used as an easy-access testing ground.
+
 const { RequestError } = require('./class/RequestError.js')
 const { Route } = require('./class/Route.js')
 const { Origami } = require('./index.js')
@@ -8,7 +11,9 @@ let d = Date.now()
 var app = new Origami(3006)
 
 app.Route('GET', 'v1/users/:user', (ctx, res) => {
-    return res.write(d)
+    return res
+    .setHead('Refresh', '4')
+    .write(Date.now())
 })
 
 app.Route('POST', '///v1/posts/:post////', (ctx, res) => {
