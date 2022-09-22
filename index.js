@@ -1,3 +1,4 @@
+const { Component } = require("./class/Component")
 const { ComponentStore } = require("./class/ComponentStore")
 const { OrigamiMounter } = require("./class/Mounter")
 const { OrigamiServer } = require("./class/OrigamiServer")
@@ -32,7 +33,11 @@ class Origami {
             new Route(method, path, resolver)
         )
     }
-    
+    Component = function(name, getRecipe = () => {}) {
+        return this.Mount(
+            new Component(name, getRecipe)
+        )
+    }
 }
 
 module.exports.Origami = Origami

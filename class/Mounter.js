@@ -13,6 +13,8 @@ class OrigamiMounter {
         switch(thing.constructor.name) {
             case('Route'):
                 return this.mountRoute(thing)
+            case('Component'):
+                return this.mountComponent(thing)
             default:
                 return
         }
@@ -21,6 +23,9 @@ class OrigamiMounter {
     
     mountRoute = function(route) {
         return this.server.routes.mountRoute(route)
+    }
+    mountComponent = function(component) {
+        return this.server.components.mountComponent(component)
     }
 }
 

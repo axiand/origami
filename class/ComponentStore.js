@@ -6,7 +6,7 @@ class ComponentStore {
     mountComponent = function(comp) {
         this.components[comp.name] = comp
 
-        return comp
+        return this.components[comp.name]
     }
 }
 

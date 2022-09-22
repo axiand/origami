@@ -28,6 +28,10 @@ app.Route('DELETE', '/v1/messages/', (ctx, res) => {
     return res
 })
 
+app.Component('channel', () => {
+    console.log('I am a component!')
+})
+
 // Fire up the server
 app.listen((app) => {
     console.log(`Server running on port ${app.port} - http://localhost:${app.port}/`)
