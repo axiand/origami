@@ -93,7 +93,7 @@ class RouteStore {
         let iTarget = object[CurIdx]||object['*']
         if(iTarget && iTarget.includes) {
             includes[iTarget.includes] = {
-                'includeKey': CurIdx,
+                'key': CurIdx,
                 'includes': iTarget.includes,
                 'typeName': iTarget.typeName || null,
             }

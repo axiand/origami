@@ -1,12 +1,12 @@
 class ComponentStore {
     constructor() {
-        this.components = {}
+        this.store = {}
     }
 
     mountComponent = function(comp) {
-        this.components[comp.name] = comp
+        this.store[comp.name] = comp
 
-        return this.components[comp.name]
+        return this.store[comp.name]
     }
 }
 

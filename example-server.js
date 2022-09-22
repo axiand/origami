@@ -18,7 +18,8 @@ app.Route('POST', '///v1/posts/:post////', (ctx, res) => {
 app.Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
     //console.log(ctx.includes)
     return {
-        'channel': ctx.bake('channel')
+        'server': ctx.bake('server'),
+        'channel': ctx.bake('channel'),
     }
 })
 
@@ -28,8 +29,14 @@ app.Route('DELETE', '/v1/messages/', (ctx, res) => {
     return res
 })
 
-app.Component('channel', () => {
-    console.log('I am a component!')
+app.Component('Channel', (key, meta, ctx) => {
+    //console.log(key, meta, ctx)
+    return {'name': 'awesome-channel', 'id': key}
+})
+
+app.Component('Group', (key, meta, ctx) => {
+    //console.log(key, meta, ctx)
+    return {'name': 'awesome-group', 'id': key}
 })
 
 // Fire up the server

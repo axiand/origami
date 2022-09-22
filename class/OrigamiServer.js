@@ -44,7 +44,8 @@ class OrigamiServer {
                             {
                                 includes: includes,
                                 body: body,
-                                headers: req.headers
+                                headers: req.headers,
+                                method: req.method,
                             }
                         ), 
                         new RequestResponse()
