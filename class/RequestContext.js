@@ -1,3 +1,5 @@
+const { RequestError } = require("./RequestError")
+
 var MethodFuncRelation = {
     'GET': 'Get',
     'POST': 'Create',

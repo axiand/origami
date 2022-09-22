@@ -1,5 +1,5 @@
 class RequestError {
-    constructor(status, message, code = 'BAD_REQUEST') {
+    constructor(code = 'BAD_REQUEST', message, status) {
         this.status = status
         this.message = message
         this.code = code
