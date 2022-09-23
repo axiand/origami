@@ -45,8 +45,18 @@ class RequestContext {
 
         let rec = linkMethodToFunc(this.method)
         
-        let baked = comp.recipe[rec](inc.key, meta, this)
-        return baked
+        try {
+            let baked = comp.recipe[rec](inc.key, meta, this)
+
+            return baked
+        } catch(e) {
+            if(e.constructor.name !== 'RequestError') {
+                console.error("\x1b[31m", `[origami/ERROR] An error occurred while resolving ${inc.typeName}<${inc.key}>\n`, "\x1b[37m", e)
+                throw `Dependency error on ${v}; see above`
+            } else {
+                throw e
+            }
+        }
     }
 }
 

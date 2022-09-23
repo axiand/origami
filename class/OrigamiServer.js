@@ -57,6 +57,14 @@ class OrigamiServer {
                     res.write(write)
                     res.end();
                 } catch(e) {
+                    if(e.constructor.name == 'RequestError') {
+                        res.writeHead(e.status, {})
+                        res.write(JSON.stringify({'code': e.code, 'message': e.message}))
+                        res.end();
+
+                        return
+                    }
+
                     console.error("\x1b[31m", `[origami/ERROR] An error occurred while resolving ${route.route.path}\n`, "\x1b[37m", e)
 
                     res.writeHead(500, {})
