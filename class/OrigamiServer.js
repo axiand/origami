@@ -33,13 +33,13 @@ class OrigamiServer {
 
                 body.push(chunk)
 
-            }).on('end', () => {
+            }).on('end', async () => {
 
                 body = Buffer.concat(body)
 
                 try {
 
-                    let resolved = route.route.resolver(
+                    let resolved = await route.route.resolver(
                         new RequestContext(this,
                             {
                                 includes: includes,
