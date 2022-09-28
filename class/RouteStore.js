@@ -73,11 +73,16 @@ class RouteStore {
     }
 
     getRoute = function(path, method) {
-        let pathArr = path.split('/')
+        let ps = path.split('?')
+
+        let pathIsolated = ps[0]
+        let pathQuery = ps[1]
+
+        let pathArr = pathIsolated.split('/')
         let idx = 0
 
         let { route, includes } = this.routeTreeGet(pathArr, idx, this.RouteTree[method], {})
-        return { route: route, includes: includes }
+        return { route: route, includes: includes, query: pathQuery}
     }
 
     routeTreeGet = function(pathArr, idx, object, includes) {

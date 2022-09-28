@@ -20,6 +20,7 @@ class RequestContext {
         this.body = context.body
         this.headers = context.headers
         this.method = context.method
+        this.queryString = context.queryString
 
         return this
     }

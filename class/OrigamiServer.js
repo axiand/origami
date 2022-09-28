@@ -15,7 +15,7 @@ class OrigamiServer {
     listen = function() {
         this.Server = http.createServer(async (req, res) => {
             let parsedUrl = removeTrailingSlash(req.url)
-            let { route, includes } = this.Parent.routes.getRoute(parsedUrl, req.method)
+            let { route, includes, query } = this.Parent.routes.getRoute(parsedUrl, req.method)
 
             let body = []
             //console.log('Returned route', route)
@@ -46,6 +46,7 @@ class OrigamiServer {
                                 body: body,
                                 headers: req.headers,
                                 method: req.method,
+                                queryString: query
                             }
                         ), 
                         new RequestResponse()
