@@ -1,5 +1,3 @@
-const { RequestError } = require("./RequestError")
-
 var MethodFuncRelation = {
     'GET': 'Get',
     'POST': 'Create',
@@ -15,6 +13,8 @@ function linkMethodToFunc(method) {
 class RequestContext {
     constructor(server, context) {
         this.ServerContext = server
+
+        this.cache = {}
 
         this.includes = context.includes
         this.body = context.body
@@ -58,6 +58,30 @@ class RequestContext {
                 throw e
             }
         }
+    }
+
+    parseQueryString = function(qs) {
+        let split = qs.split('&')
+
+        let returns = {}
+
+        for(let s of split) {
+            let kv = s.split('=')
+
+            returns[kv[0]] = kv[1]
+        }
+
+        return returns
+    } 
+
+    getQuery = function(k) {
+        let qcache = this.cache.query
+        if(!qcache) {
+            this.cache.query = this.parseQueryString(this.queryString)
+            qcache = this.cache.query
+        }
+
+        return qcache[k]
     }
 }
 
