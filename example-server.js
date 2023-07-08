@@ -29,12 +29,8 @@ app.Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res
 })
 
 app.Route('GET', '/v1/messages/', (ctx, res) => {
-    //res.write(ctx.GetApp().routes)
-    //res.setHead('Refresh', 0.01)
-
-    return res
-    .setType('image/gif')
-    .write(FileSystem.readFileSync('C:/Users/user/Pictures/storage/2x.gif'))
+    res.write(ctx.GetApp().routes)
+    res.setHead('Refresh', 0.01)
 })
 
 app.Component('Channel')
