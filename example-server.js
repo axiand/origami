@@ -29,6 +29,7 @@ app.Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res
 
 app.Route('DELETE', '/v1/messages/', (ctx, res) => {
     res.write(ctx.GetApp().routes)
+    res.setHead('Refresh', 1)
 
     return res
 })
