@@ -3,7 +3,7 @@ const { RequestError } = require("./RequestError")
 class RequestResponse {
     constructor() {
         this.status = 200
-        this.body = {}
+        this.body = null
         this.mime = 'application/json'
         this.headers = {}
 
@@ -14,6 +14,14 @@ class RequestResponse {
         this.body = body
 
         if(status) this.status = status
+
+        return this
+    }
+
+    buffer = function(type = 'application/octet-stream') {
+        this.body = Buffer.from([])
+
+        this.setType(type)
 
         return this
     }

@@ -4,6 +4,7 @@
 const { RequestError } = require('./class/RequestError.js')
 const { Route } = require('./class/Route.js')
 const { Origami } = require('./index.js')
+const FileSystem = require('fs')
 
 let d = Date.now()
 
@@ -27,11 +28,13 @@ app.Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res
     }
 })
 
-app.Route('DELETE', '/v1/messages/', (ctx, res) => {
-    res.write(ctx.GetApp().routes)
-    res.setHead('Refresh', 1)
+app.Route('GET', '/v1/messages/', (ctx, res) => {
+    //res.write(ctx.GetApp().routes)
+    //res.setHead('Refresh', 0.01)
 
     return res
+    .setType('image/gif')
+    .write(FileSystem.readFileSync('C:/Users/user/Pictures/storage/2x.gif'))
 })
 
 app.Component('Channel')
