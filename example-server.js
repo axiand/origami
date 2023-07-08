@@ -21,7 +21,6 @@ app.Route('POST', '///v1/posts/:post////', (ctx, res) => {
 })
 
 app.Route('GET', '/v1/messages/:Group server/:Channel channel/pinned', (ctx, res) => {
-    //console.log(ctx.includes)
     return {
         'server': ctx.bake('server'),
         'channel': ctx.bake('channel'),
