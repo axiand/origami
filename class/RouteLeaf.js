@@ -1,3 +1,5 @@
+const {parsePathPart} = require("../shared/parsePathPart")
+
 class RouteLeaf {
     constructor() {
         this.children = {}
@@ -15,9 +17,15 @@ class RouteLeaf {
 
             return this
         } else {
-            this.children[next] = new RouteLeaf()
+            let partMeta = parsePathPart(next)
 
-            this.children[next].appendChild(pathParts.slice(1).join("/"), route)
+            this.children[partMeta.part] = new RouteLeaf()
+
+            let nextChild = this.children[partMeta.part]
+
+            nextChild.symbol = partMeta.symbol
+            nextChild.component = partMeta.component
+            nextChild.appendChild(pathParts.slice(1).join("/"), route)
         }
     }
 }

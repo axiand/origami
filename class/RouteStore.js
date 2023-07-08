@@ -12,7 +12,7 @@ class RouteStore {
 
     mountRoute = function(route) {
         this.RouteTree[route.method].appendChild(route.path, route)
-
+        
         return this
     }
 }
