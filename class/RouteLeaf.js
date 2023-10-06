@@ -13,6 +13,10 @@ class RouteLeaf {
         let next = pathParts[0]
 
         if(!next) {
+            if(this.route) {
+                throw new Error(`origami: The route at "${route.path}" already exists`)
+            }
+
             this.route = route
 
             return this
