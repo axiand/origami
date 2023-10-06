@@ -1,8 +1,8 @@
 var MethodFuncRelation = {
     'GET': 'Get',
-    'POST': 'Create',
-    'PUT': 'Update',
-    'PATCH': 'Update',
+    'POST': 'Post',
+    'PUT': 'Put',
+    'PATCH': 'Patch',
     'DELETE': 'Delete',
 }
 
@@ -47,7 +47,11 @@ class RequestContext {
         let rec = linkMethodToFunc(this.method)
         
         try {
-            let baked = comp.recipe[rec](inc.key, meta, this)
+            let inst = new comp.recipe()
+
+            if(!inst[rec]) throw new Error(`Operator ${rec} of component ${inc.typeName} does not exist.`)
+
+            let baked = inst[rec](inc.key, meta, this)
 
             return baked
         } catch(e) {

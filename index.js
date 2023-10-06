@@ -33,9 +33,9 @@ class Origami {
             new Route(method, path, resolver)
         )
     }
-    Component = function(name, getRecipe = () => {}) {
+    Component = function(name, recipe) {
         return this.Mount(
-            new Component(name, getRecipe)
+            new Component(name, recipe)
         )
     }
 }

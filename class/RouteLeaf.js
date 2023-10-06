@@ -35,18 +35,18 @@ class RouteLeaf {
         }
     }
 
-    getChild = function(path, includes) {
+    getChild = function(path, includes, curr) {
         let pathParts = path.split("/")
         let next = pathParts[0]
 
-        if(this.symbol) {includes[this.symbol] = {"key": this.symbol, "typeName": this.component}}
+        if(this.symbol) {includes[this.symbol] = {"key": curr, "typeName": this.component}}
 
         if(!next) return {route: this, includes: includes}
 
         if(this.children[next]) {
-            return this.children[next].getChild(pathParts.slice(1).join("/"), includes)
+            return this.children[next].getChild(pathParts.slice(1).join("/"), includes, next)
         } else if(this.children["*"]) {
-            return this.children["*"].getChild(pathParts.slice(1).join("/"), includes)
+            return this.children["*"].getChild(pathParts.slice(1).join("/"), includes, next)
         } else {
             return {route: null, includes: {}}
         }
