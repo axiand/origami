@@ -60,28 +60,12 @@ class RequestContext {
         }
     }
 
-    parseQueryString = function(qs) {
-        let split = qs.split('&')
-
-        let returns = {}
-
-        for(let s of split) {
-            let kv = s.split('=')
-
-            returns[kv[0]] = kv[1]
-        }
-
-        return returns
-    } 
-
     getQuery = function(k) {
-        let qcache = this.cache.query
-        if(!qcache) {
-            this.cache.query = this.parseQueryString(this.queryString)
-            qcache = this.cache.query
+        if(!this.query) {
+            this.query = new URLSearchParams(this.queryString)
         }
 
-        return qcache[k]
+        return this.query.get(k)
     }
 }
 
