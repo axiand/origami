@@ -32,3 +32,21 @@ app.Route('GET', '/articles/:artId', (ctx, res) => {
         }
     )
 })
+
+class UserClass {
+    constructor() {
+        return {
+            Get: (key) => {
+                return {"id": key} 
+            }
+        }
+    }
+}
+
+app.Component("User", UserClass)
+
+app.Route('GET', '/users/:User target', (ctx, res) => {
+    return {
+        "user": ctx.bake("target")
+    }
+})
