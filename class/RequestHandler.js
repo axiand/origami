@@ -18,7 +18,7 @@ class RequestHandler {
             case('RequestError'):
                 return this.handleError(resolverResponse)
             default:
-                throw new Error(`Request response type is invalid. Expected one of: ${this.AllowedClasses.join(', ')}. got ${resolverResponse.constructor.name}`)
+                throw new Error(`origami: Request response type is invalid. Expected one of: ${this.AllowedClasses.join(', ')}. got ${resolverResponse.constructor.name}`)
         }
     }
 

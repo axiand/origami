@@ -7,7 +7,7 @@ class OrigamiMounter {
 
     mount = function(thing) {
         if(!this.allowedMounts.includes(thing.constructor.name)) {
-            throw new Error(`Mounter: Expeted one of ${this.allowedMounts.join(', ')}. Got ${thing.constructor.name}`)
+            throw new Error(`origami: Expected one of ${this.allowedMounts.join(', ')}. Got ${thing.constructor.name}`)
         }
 
         switch(thing.constructor.name) {

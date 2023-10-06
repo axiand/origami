@@ -1,7 +1,7 @@
 //Copied from the documentation: https://github.com/axiand/origami-docs/blob/master/Getting%20Started/Intro.md
 
 // Import Origami
-const { Origami } = require('[--todo-publish-package--]')
+const { Origami } = require('./index')
 
 // Create an app running on port 3000
 var app = new Origami(3000)

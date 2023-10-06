@@ -52,7 +52,7 @@ class RequestContext {
             return baked
         } catch(e) {
             if(e.constructor.name !== 'RequestError') {
-                console.error("\x1b[31m", `[origami/ERROR] An error occurred while resolving ${inc.typeName}<${inc.key}>\n`, "\x1b[37m", e)
+                console.error("\x1b[31m", `origami: An error occurred while resolving ${inc.typeName}<${inc.key}>\n`, "\x1b[37m", e)
                 throw `Dependency error on ${v}; see above`
             } else {
                 throw e

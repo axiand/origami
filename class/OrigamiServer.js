@@ -66,7 +66,7 @@ class OrigamiServer {
                         return
                     }
 
-                    console.error("\x1b[31m", `[origami/ERROR] An error occurred while resolving ${route.route.path}\n`, "\x1b[37m", e)
+                    console.error("\x1b[31m", `origami: An error occurred while resolving ${route.route.path}\n`, "\x1b[37m", e)
 
                     res.writeHead(500, {})
                     res.write('Internal Server Error')
