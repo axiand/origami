@@ -19,7 +19,9 @@ class RouteLeaf {
         } else {
             let partMeta = parsePathPart(next)
 
-            this.children[partMeta.part] = new RouteLeaf()
+            if(!this.children[partMeta.part]) {
+                this.children[partMeta.part] = new RouteLeaf()
+            }
 
             let nextChild = this.children[partMeta.part]
 
