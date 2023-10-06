@@ -15,7 +15,7 @@ class OrigamiServer {
     listen = function() {
         this.Server = http.createServer(async (req, res) => {
             let parsedUrl = removeTrailingSlash(req.url)
-            let { route, includes, query } = this.Parent.routes.getRoute(parsedUrl, req.method)
+            let { route, includes, query, middles } = this.Parent.routes.getRoute(parsedUrl, req.method)
 
             let body = []
             //console.log('Returned route', route)
@@ -38,21 +38,35 @@ class OrigamiServer {
                 body = Buffer.concat(body)
 
                 try {
-
-                    let resolved = await route.route.resolver(
-                        new RequestContext(this,
-                            {
-                                includes: includes,
-                                body: body,
-                                headers: req.headers,
-                                method: req.method,
-                                queryString: query
-                            }
-                        ), 
-                        new RequestResponse()
+                    //Setup contexts
+                    let ctx =  new RequestContext(this,
+                        {
+                            includes: includes,
+                            body: body,
+                            headers: req.headers,
+                            method: req.method,
+                            queryString: query
+                        }
                     )
-        
+                    let out = new RequestResponse()
+
+                    // Execute before middlewares
+                    for(let fn of middles.before) {
+                        let new_ctx, new_res = await fn(ctx, out)
+
+                        if(new_ctx instanceof RequestContext) ctx = new_ctx
+                        if(new_res instanceof RequestResponse) out = new_res
+                    }
+
+                    // Execute the route resolver
+                    let resolved = await route.route.resolver(ctx, out)
+
                     let { head, status, write } = this.handler.proc(resolved)
+
+                    // Execute after middlewares
+                    for(let fn of middles.after) {
+                        await fn(ctx)
+                    }
 
                     res.writeHead(status, head)
                     res.write(write)

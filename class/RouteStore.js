@@ -12,9 +12,7 @@ class RouteStore {
     }
 
     mountRoute = function(route) {
-        this.RouteTree[route.method].appendChild(route.path, route)
-
-        return this
+        return this.RouteTree[route.method].appendChild(route.path, route)
     }
 
     getRoute = function(path, method) {
@@ -22,9 +20,9 @@ class RouteStore {
         let query = pathQuerySplit[1]
         let pathIsolated = pathQuerySplit[0]
 
-        let {route, includes} = this.RouteTree[method].getChild(pathIsolated, {})
+        let {route, includes, middles} = this.RouteTree[method].getChild(pathIsolated, {}, {before: [], after: []})
         
-        return {route: route, includes: includes, query: query}
+        return {route: route, includes: includes, query: query, middles: middles}
     }
 }
 
