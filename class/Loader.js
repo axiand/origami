@@ -2,15 +2,32 @@ const fs = require('fs/promises')
 const path = require("path")
 const { removeTrailingSlash } = require("../shared/removeTrailingSlash")
 
+/**
+ * The loader responsible for importing files from a directory.
+ */
 class Loader {
     constructor() {}
 
+    /**
+     * Entry point for importing files
+     * 
+     * @param {string} directory - The directory from which to import
+     * @param {string} basePath - The URL path which imported routes will be put under
+     * @returns {Array}
+     */
     use = async function(directory, basePath) {
         let objs = await this.loadFromDir(directory, removeTrailingSlash(basePath))
 
         return objs
     }
 
+    /**
+     * Load files recursively from a specified directory
+     * 
+     * @param {string} dir - The directory
+     * @param {string} basePath - The URL path which imported routes will be put under 
+     * @returns {Array}
+     */
     loadFromDir = async function(dir, basePath) {
         let current_exports = []
         let files = await fs.readdir(dir)

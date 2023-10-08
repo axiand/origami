@@ -4,6 +4,13 @@ const { RequestContext } = require('./RequestContext')
 const { RequestHandler } = require('./RequestHandler')
 const { RequestResponse } = require('./RequestResponse')
 
+/**
+ * An Origami server.
+ * 
+ * @constructor
+ * @param {number} port - The port of this server
+ * @param {Origami} parent - The app which instantiated this server
+ */
 class OrigamiServer {
     constructor(port, parent) {
         this.port = port
@@ -12,6 +19,9 @@ class OrigamiServer {
         this.handler = new RequestHandler()
     }
 
+    /**
+     * Create an HTTP server and listen.
+     */
     listen = function() {
         this.Server = http.createServer(async (req, res) => {
             let parsedUrl = removeTrailingSlash(req.url)

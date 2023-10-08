@@ -10,6 +10,13 @@ function linkMethodToFunc(method) {
     return MethodFuncRelation[method]
 }
 
+/**
+ * The context of the request.
+ * 
+ * @constructor
+ * @param {OrigamiServer} server - The server which was responsible for catching this request
+ * @param {object} context - Additional context metadata
+ */
 class RequestContext {
     constructor(server, context) {
         this.ServerContext = server
@@ -25,17 +32,41 @@ class RequestContext {
         return this
     }
 
+    /**
+     * Get the server of this request.
+     * 
+     * @returns {OrigamiServer}
+     */
     GetServer = function() {
         return this.ServerContext
     }
+
+    /**
+     * Get the app of this request.
+     * 
+     * @returns {Origami}
+     */
     GetApp = function() {
         return this.ServerContext.Parent
     }
 
+    /**
+     * Get a header from the request by its key.
+     * 
+     * @param {string} k - The header key
+     * @returns {string} - The header value
+     */
     getHead = function(k) {
         return this.headers[k]
     }
 
+    /**
+     * Bake a component by its include key.
+     * 
+     * @param {string} v - The name of the include to attempt to bake.
+     * @param {object} meta - Additional data to pass to the resolver.
+     * @returns {object|RequestError}
+     */
     bake = function(v, meta) {
         if(!this.includes[v]) throw new Error(`Attempted to bake ${v}, but it does not exist in the request includes.`)
 
@@ -64,6 +95,12 @@ class RequestContext {
         }
     }
 
+    /**
+     * Get a query string param by its key name.
+     * 
+     * @param {string} k - The key of the query param to get
+     * @returns {string}
+     */
     getQuery = function(k) {
         if(!this.query) {
             this.query = new URLSearchParams(this.queryString)

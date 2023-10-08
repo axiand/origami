@@ -1,3 +1,6 @@
+/**
+ * The request handler. Responsible for interpreting response objects from resolver functions, and translating them to something understood by the server code.
+ */
 class RequestHandler {
     constructor() {
         this.AllowedClasses = ['RequestResponse', 'Object', 'RequestError']
@@ -5,6 +8,12 @@ class RequestHandler {
         return this
     }
 
+    /**
+     * Process a response.
+     * 
+     * @param {RequestResponse|object|RequestError} resolverResponse - The resolver function response to try to process.
+     * @returns {object} - A server-readable response.
+     */
     proc = function(resolverResponse) {
         if(!resolverResponse) {
             return this.handleRawObject({})
@@ -22,6 +31,12 @@ class RequestHandler {
         }
     }
 
+    /**
+     * Handle a RequestResponse object.
+     * 
+     * @param {RequestResponse} resolved - A resolved request response.
+     * @returns {object}
+     */
     handleRequestResponse = function(resolved) {
         resolved.headers['Content-Type'] = resolved.mime
 
@@ -36,6 +51,12 @@ class RequestHandler {
         }
     }
 
+    /**
+     * Handle a raw object.
+     * 
+     * @param {object} obj - The object to handle. 
+     * @returns {object}
+     */
     handleRawObject = function(obj) {
         let head = { 'Content-Type': 'application/json'}
         let status = 200
@@ -48,6 +69,12 @@ class RequestHandler {
         }
     }
 
+    /**
+     * Handle a RequestError object.
+     * 
+     * @param {RequestError} err - The request error to handle.
+     * @returns {object}
+     */
     handleError = function(err) {
         let head = {}
         let status = err.status

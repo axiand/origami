@@ -1,5 +1,8 @@
 const {parsePathPart} = require("../shared/parsePathPart")
 
+/**
+ * A route tree leaf.
+ */
 class RouteLeaf {
     constructor() {
         this.children = {}
@@ -8,6 +11,13 @@ class RouteLeaf {
         return this
     }
 
+    /**
+     * Append a child to the leaf.
+     * 
+     * @param {string} path - The path relative to the leaf 
+     * @param {Route} route - The route to append
+     * @returns {RouteLeaf}
+     */
     appendChild = function(path, route) {
         let pathParts = path.split("/")
         let next = pathParts[0]
@@ -35,6 +45,15 @@ class RouteLeaf {
         }
     }
 
+    /**
+     * Get a child of the leaf and its metadata.
+     * 
+     * @param {string} path - The path relative to the leaf
+     * @param {object} includes - The current set of includes
+     * @param {object} middles - The current set of middlewares 
+     * @param {string} curr - The current path part 
+     * @returns {object}
+     */
     getChild = function(path, includes, middles, curr) {
         let pathParts = path.split("/")
         let next = pathParts[0]

@@ -1,3 +1,9 @@
+/**
+ * Parse a path part for includes or components.
+ * 
+ * @param {string} part - The path part to be parsed 
+ * @returns {object}
+ */
 function parsePathPart(part) {
     //check for dynamic notation
     if(part.startsWith(":")) {
