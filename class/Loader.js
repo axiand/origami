@@ -28,7 +28,7 @@ class Loader {
                         current_exports.push(p)
                         if(p.constructor.name == "Route") { // Special cases for routes: we'll want to override the path and log it to the console.
                             p.path = ( basePath.split("/").concat(removeTrailingSlash(p.path).split("/")) ).join("/").replace("@", ":")
-                            console.log(`origami-loader: ${path.join(dir, f)} -> ${p.method} ${p.path}`) 
+                            console.log(`\x1b[35morigami-loader: \x1b[32m${path.join(dir, f)} \x1b[35m-> \x1b[32m${p.method} ${p.path} \x1b[0m`) 
                         }
                     }
                 }
