@@ -4,8 +4,6 @@ class RouteLeaf {
     constructor() {
         this.children = {}
         this.route = null
-        this.m_before = []
-        this.m_after = []
 
         return this
     }
@@ -43,8 +41,8 @@ class RouteLeaf {
 
         if(this.symbol) {includes[this.symbol] = {"key": curr, "typeName": this.component}}
 
-        middles.before = middles.before.concat(this.m_before)
-        middles.after = middles.after.concat(this.m_after)
+        this.route ? middles.before = middles.before.concat(this.route.m_before) : null
+        this.route ? middles.after = middles.after.concat(this.route.m_after) : null
 
         if(!next) return {route: this, includes: includes, middles: middles}
 
@@ -55,18 +53,6 @@ class RouteLeaf {
         } else {
             return {route: null, includes: {}}
         }
-    }
-
-    before = function(fn) {
-        this.m_before.push(fn)
-
-        return this
-    }
-
-    after = function(fn) {
-        this.m_after.push(fn)
-
-        return this
     }
 }
 
