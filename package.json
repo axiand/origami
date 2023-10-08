@@ -1,6 +1,6 @@
 {
   "name": "@axiand/origami",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "The tiny API framework that gets out of your way",
   "main": "index.js",
   "scripts": {
