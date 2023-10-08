@@ -1,13 +1,15 @@
 {
   "name": "origami",
-  "version": "0.2.0",
-  "description": "APIs made easy",
+  "version": "0.4.0",
+  "description": "The tiny API framework that gets out of your way",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon ./example-server.js"
+    "example": "nodemon ./example-server.js"
   },
   "keywords": [
-    "api"
+    "api",
+    "web",
+    "backend"
   ],
   "author": "axiand",
   "license": "LGPL-3.0-only"
