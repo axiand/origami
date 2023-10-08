@@ -1,9 +1,5 @@
 function removeTrailingSlash(string) {
-    if(string) {
-        return string.replace(/\/*$/g, '').replace(/^\/*/g, '')
-    } else {
-        return null
-    }
+    return string.replace(/\/*$/g, '').replace(/^\/*/g, '')
 }
 
 module.exports.removeTrailingSlash = removeTrailingSlash;

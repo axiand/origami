@@ -1,6 +1,6 @@
 const { METHODS } = require("../shared/methods")
-const { parsePathPart } = require("../shared/parsePathPart")
 const { RouteLeaf } = require("./RouteLeaf")
+const { removeTrailingSlash } = require("../shared/removeTrailingSlash")
 
 class RouteStore {
     constructor() {
@@ -12,7 +12,7 @@ class RouteStore {
     }
 
     mountRoute = function(route) {
-        return this.RouteTree[route.method].appendChild(route.path, route)
+        return this.RouteTree[route.method].appendChild(removeTrailingSlash(route.path), route)
     }
 
     getRoute = function(path, method) {
