@@ -38,8 +38,6 @@ class Origami {
 
         await cback(this)
 
-        console.log(JSON.stringify(this.routes.RouteTree))
-
         return this
     }
 
