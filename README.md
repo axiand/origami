@@ -1,6 +1,10 @@
 # Origami
 The flexible JavaScript backend framework that gets out of your way
 
+```
+npm i @axiand/origami@latest --registry="https://npm.pkg.github.com"
+```
+
 # About
 Origami is a backend framework made to simplify the process of developing a backend. It strives to do this by taking a "keep it simple" approach wherever possible as well as providing the tools necessary to streamline common tasks.
 
