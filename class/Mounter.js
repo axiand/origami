@@ -22,7 +22,7 @@ class OrigamiMounter {
 
     
     mountRoute = function(route) {
-        return this.server.routes.mountRoute(route)
+        return this.server.routes.mountRoute(route).route
     }
     mountComponent = function(component) {
         return this.server.components.mountComponent(component)
