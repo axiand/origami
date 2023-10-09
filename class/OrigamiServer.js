@@ -55,10 +55,11 @@ class OrigamiServer {
                             body: body,
                             headers: req.headers,
                             method: req.method,
-                            queryString: query
+                            queryString: query,
+                            _requestBase: req,
                         }
                     )
-                    let out = new RequestResponse()
+                    let out = new RequestResponse(this, res)
 
                     // Execute before middlewares
                     for(let fn of middles.before) {

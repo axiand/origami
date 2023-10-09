@@ -4,14 +4,19 @@ const { RequestError } = require("./RequestError")
  * A request response object.
  * 
  * @constructor
+ * @param {OrigamiServer} server - The server that instantiated this response
+ * @param {ServerResponse} baseResponse - The original server response object
  * @returns {RequestResponse}
  */
 class RequestResponse {
-    constructor() {
+    constructor(server, baseResponse) {
         this.status = 200
         this.body = null
         this.mime = 'application/json'
         this.headers = {}
+        this.server = server
+        /** @private */
+        this._responseBase = baseResponse
 
         return this
     }

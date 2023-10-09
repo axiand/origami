@@ -30,6 +30,9 @@ class RequestContext {
         this.method = context.method
         this.queryString = context.queryString
 
+        /** @private */
+        this._requestBase = context._requestBase
+
         return this
     }
 
@@ -49,6 +52,15 @@ class RequestContext {
      */
     GetApp = function() {
         return this.ServerContext.Parent
+    }
+
+    /**
+     * Get the original request object of this request.
+     * 
+     * @returns {IncomingMessage}
+     */
+    getRequest = function() {
+        return this._requestBase
     }
 
     /**
@@ -97,6 +109,38 @@ class RequestContext {
     }
 
     /**
+     * Bake an anonymous instance of a component by its name, with a null key.
+     * 
+     * @param {string} c - The component name
+     * @param {object} meta - Additional data to pass to the resolver.
+     * @returns {object|RequestError}
+     */
+    new = function(cname, meta) {
+        let comp = this.GetApp().components.store[cname]
+
+        if(!comp) throw new Error(`Attempt to bake ${cname}<anonymous>, but no such component exists.`)
+
+        let rec = linkMethodToFunc(this.method)
+        
+        try {
+            let inst = new comp.recipe()
+
+            if(!inst[rec]) throw new Error(`Operator ${rec} of component ${cname} does not exist.`)
+
+            let baked = inst[rec](null, meta, this)
+
+            return baked
+        } catch(e) {
+            if(e.constructor.name !== 'RequestError') {
+                console.error("\x1b[31m", `origami: An error occurred while resolving ${cname}<anonymous>\n`, "\x1b[37m", e)
+                throw `Dependency error on ${cname}; see above`
+            } else {
+                throw e
+            }
+        }
+    }
+
+    /**
      * Get a query string param by its key name.
      * 
      * @param {string} k - The key of the query param to get
@@ -108,6 +152,26 @@ class RequestContext {
         }
 
         return this.query.get(k)
+    }
+
+    /**
+     * Get the key of an include by the include name.
+     * 
+     * @param {string} include - The name of the include to get the key of
+     * @returns {string|number}
+     */
+    getKey = function(include) {
+        return this.includes[include].key
+    }
+
+    /**
+     * Get the type name (component name) of an include by the include name.
+     * 
+     * @param {string} include - The name of the include to get the type name of
+     * @returns {string}
+     */
+    getTypeName = function(include) {
+        return this.includes[include].typeName
     }
 }
 
