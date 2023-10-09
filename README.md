@@ -1,12 +1,12 @@
 # Origami
-The flexible JavaScript backend framework that gets out of your way
+The tiny JavaScript API framework that gets out of your way
 
 ```
 npm i @axiand/origami@latest --registry="https://npm.pkg.github.com"
 ```
 
 # About
-Origami is a backend framework made to simplify the process of developing a backend. It strives to do this by taking a "keep it simple" approach wherever possible as well as providing the tools necessary to streamline common tasks.
+Origami is a backend framework made to simplify the process of developing an API. It does this by taking a "keep it simple" approach and providing tools to streamline common tasks.
 
 # Principles
 ## Resilient
@@ -25,4 +25,4 @@ Origami is not just three other libraries in a trenchcoat - in fact - it's quite
 You can find all of the documentation for Origami at [the origami-docs repo](https://github.com/axiand/origami-docs).
 
 # Getting Started
-Create your first project in just a few minutes. [See the Getting Started guide](https://github.com/axiand/origami-docs/blob/master/Getting%20Started/Intro.md)
+See how to create your first API project with [the Getting Started guide.](https://github.com/axiand/origami-docs/blob/master/Getting%20Started/Intro.md)

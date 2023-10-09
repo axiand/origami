@@ -11,6 +11,7 @@ app.listen((app) => {
     console.log(`Server running on port ${app.port} - http://localhost:${app.port}/`)
 })
 
+// Create a GET /helloworld route
 app.Route('GET', '/helloworld', (ctx, res) => {
     return res
            .write(
@@ -18,6 +19,8 @@ app.Route('GET', '/helloworld', (ctx, res) => {
            )
 })
 
+// Create a route with a variable
+// Origami calls these "includes"
 app.Route('GET', '/articles/:artId', (ctx, res) => {
     let article = ctx.includes.artId
 
@@ -33,6 +36,7 @@ app.Route('GET', '/articles/:artId', (ctx, res) => {
     )
 })
 
+// Create a component class
 class UserClass {
     constructor() {
         return {
@@ -43,8 +47,10 @@ class UserClass {
     }
 }
 
+// Bind our class to the app
 app.Component("User", UserClass)
 
+// Create a route that uses the new class
 app.Route('GET', '/users/:User target', (ctx, res) => {
     return {
         "user": ctx.bake("target")
