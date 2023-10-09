@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: index.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: index.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { Component } = require("./class/Component")
+const { ComponentStore } = require("./class/ComponentStore")
+const { OrigamiMounter } = require("./class/Mounter")
+const { OrigamiServer } = require("./class/OrigamiServer")
+const { Route } = require("./class/Route")
+const { RouteStore } = require("./class/RouteStore")
+const { RequestError } = require("./class/RequestError")
+const { Loader } = require("./class/Loader")
+
+/**
+ * An Origami app.
+ * @constructor
+ * @param {number} port - The port the app should bind to
+ * @param {object} settings - The settings to intialize the app with
+ */
+class Origami {
+    constructor(port = 3000, settings = {}) {
+        this.port = port
+        this.settings = settings
+
+        this.server = new OrigamiServer(this.port, this)
+
+        this.mounter = new OrigamiMounter(this)
+        this.loader = new Loader()
+
+        this.routes = new RouteStore()
+        this.components = new ComponentStore()
+    }
+
+    /**
+     * Create an Origami server. Goes live on the port specified on instantiation.
+     * 
+     * @param {Function} cback - Callback to run after server goes live
+     * @returns {Origami}
+     */
+    listen = function(cback = () => {}) {
+        this.server.listen(this.port)
+
+        cback(this)
+
+        return this
+    }
+
+    /**
+     * Mount a directory to the application. Routes and components are imported automatically.
+     * 
+     * @param {string} directory - The directory from which to import
+     * @param {string} basePath - The path to bind imported routes under
+     * @param {Function} cback - The callback to run after importing is finished
+     * @returns {Origami}
+     */
+    use = async function(directory, basePath, cback = () => {}) {
+        let thingsToMount = await this.loader.use(directory, basePath)
+
+        for(let k in thingsToMount) {
+            this.mounter.mount(thingsToMount[k])
+        }
+
+        await cback(this)
+
+        return this
+    }
+
+    /**
+     * Mount something onto the app.
+     * 
+     * @param {Route|Component} thing - The thing to try to mount.
+     * @returns {Origami}
+     */
+    Mount = function(thing) {
+        return this.mounter.mount(thing)
+    }
+
+    /**
+     * @callback routeResolver
+     * 
+     * @param {RequestContext} ctx - The context of the incoming request
+     * @param {RequestResponse} res - The response object of the incoming request
+     */
+
+    /**
+     * Shorthand for creating a route and mounting it to the app.
+     * 
+     * @param {string} method - The method of the route. One of: GET, POST, PUT, DELETE, PATCH
+     * @param {string} path - The path of the route
+     * @param {routeResolver} resolver - The resolver function of the route
+     * @returns {Route}
+     */
+    Route = function(method, path, resolver) {
+        return this.Mount(
+            new Route(method, path, resolver)
+        )
+    }
+
+    /**
+     * Shorthand for creating a component and mounting it to the app.
+     * 
+     * @param {string} name - The name of the component
+     * @param {class} recipe - The recipe class of the component
+     * @returns {Component}
+     */
+    Component = function(name, recipe) {
+        return this.Mount(
+            new Component(name, recipe)
+        )
+    }
+}
+
+module.exports.Origami = Origami
+module.exports.Component = Component
+module.exports.Route = Route
+module.exports.RequestError = RequestError</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentStore.html">ComponentStore</a></li><li><a href="Loader.html">Loader</a></li><li><a href="Origami.html">Origami</a></li><li><a href="OrigamiMounter.html">OrigamiMounter</a></li><li><a href="OrigamiServer.html">OrigamiServer</a></li><li><a href="RequestContext.html">RequestContext</a></li><li><a href="RequestError.html">RequestError</a></li><li><a href="RequestHandler.html">RequestHandler</a></li><li><a href="RequestResponse.html">RequestResponse</a></li><li><a href="Route.html">Route</a></li><li><a href="RouteLeaf.html">RouteLeaf</a></li><li><a href="RouteStore.html">RouteStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#parsePathPart">parsePathPart</a></li><li><a href="global.html#removeTrailingSlash">removeTrailingSlash</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Oct 09 2023 19:52:16 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: class/OrigamiServer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: class/OrigamiServer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const http = require('http')
+const { removeTrailingSlash } = require('../shared/removeTrailingSlash')
+const { RequestContext } = require('./RequestContext')
+const { RequestHandler } = require('./RequestHandler')
+const { RequestResponse } = require('./RequestResponse')
+
+/**
+ * An Origami server.
+ * 
+ * @constructor
+ * @param {number} port - The port of this server
+ * @param {Origami} parent - The app which instantiated this server
+ */
+class OrigamiServer {
+    constructor(port, parent) {
+        this.port = port
+        this.Parent = parent
+
+        this.handler = new RequestHandler()
+    }
+
+    /**
+     * Create an HTTP server and listen.
+     */
+    listen = function() {
+        this.Server = http.createServer(async (req, res) => {
+            let parsedUrl = removeTrailingSlash(req.url)
+            let { route, includes, query, middles } = this.Parent.routes.getRoute(parsedUrl, req.method)
+
+            let body = []
+            //console.log('Returned route', route)
+            //console.log('Returned includes', includes)
+
+            if(!route || !route.route) {
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.write('404 Not Found')
+                res.end();
+
+                return
+            }
+
+            req.on('data', (chunk) => {
+
+                body.push(chunk)
+
+            }).on('end', async () => {
+
+                body = Buffer.concat(body)
+
+                try {
+                    //Setup contexts
+                    let ctx =  new RequestContext(this,
+                        {
+                            includes: includes,
+                            body: body,
+                            headers: req.headers,
+                            method: req.method,
+                            queryString: query
+                        }
+                    )
+                    let out = new RequestResponse()
+
+                    // Execute before middlewares
+                    for(let fn of middles.before) {
+                        let new_ctx, new_res = await fn(ctx, out)
+
+                        if(new_ctx instanceof RequestContext) ctx = new_ctx
+                        if(new_res instanceof RequestResponse) out = new_res
+                    }
+
+                    // Execute the route resolver
+                    let resolved = await route.route.resolver(ctx, out)
+
+                    let { head, status, write } = this.handler.proc(resolved)
+
+                    // Execute after middlewares
+                    for(let fn of middles.after) {
+                        await fn(ctx)
+                    }
+
+                    res.writeHead(status, head)
+                    res.write(write)
+                    res.end();
+                } catch(e) {
+                    if(e.constructor.name == 'RequestError') {
+                        res.writeHead(e.status, {})
+                        res.write(JSON.stringify({'code': e.code, 'message': e.message}))
+                        res.end();
+
+                        return
+                    }
+
+                    console.error("\x1b[31m", `origami: An error occurred while resolving ${route.route.path}\n`, "\x1b[37m", e)
+
+                    res.writeHead(500, {})
+                    res.write('Internal Server Error')
+                    res.end();
+                }
+
+            })
+
+            return
+        })
+
+        this.Server.listen(this.port)
+    }
+}
+
+module.exports.OrigamiServer = OrigamiServer</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentStore.html">ComponentStore</a></li><li><a href="Loader.html">Loader</a></li><li><a href="Origami.html">Origami</a></li><li><a href="OrigamiMounter.html">OrigamiMounter</a></li><li><a href="OrigamiServer.html">OrigamiServer</a></li><li><a href="RequestContext.html">RequestContext</a></li><li><a href="RequestError.html">RequestError</a></li><li><a href="RequestHandler.html">RequestHandler</a></li><li><a href="RequestResponse.html">RequestResponse</a></li><li><a href="Route.html">Route</a></li><li><a href="RouteLeaf.html">RouteLeaf</a></li><li><a href="RouteStore.html">RouteStore</a></li></ul><h3>Global</h3><ul><li><a href="global.html#parsePathPart">parsePathPart</a></li><li><a href="global.html#removeTrailingSlash">removeTrailingSlash</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Oct 09 2023 19:52:16 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
