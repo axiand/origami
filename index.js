@@ -97,7 +97,7 @@ class Origami {
      * 
      * @param {string} name - The name of the component
      * @param {class} recipe - The recipe class of the component
-     * @returns 
+     * @returns {Component}
      */
     Component = function(name, recipe) {
         return this.Mount(

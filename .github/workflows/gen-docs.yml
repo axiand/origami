@@ -1,0 +1,22 @@
+name: gen-docs
+run-name: Generate and publish docs
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: andstor/jsdoc-action@v1
+        with:
+          source-dir: ./
+          recurse: true
+          output-dir: ./doc
+          front-page: README.md
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc
