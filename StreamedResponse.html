@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: OrigamiServer</title>
+    <title>JSDoc: Class: StreamedResponse</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: OrigamiServer</h1>
+    <h1 class="page-title">Class: StreamedResponse</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>OrigamiServer<span class="signature">(port, parent)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>StreamedResponse<span class="signature">(responseObject, parent)</span><span class="type-signature"> &rarr; {<a href="StreamedResponse.html">StreamedResponse</a>}</span></h2>
         
-            <div class="class-description">An Origami server.</div>
+            <div class="class-description">Represents a streamed response (which can be written in chunks, rather than at once)</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="OrigamiServer"><span class="type-signature"></span>new OrigamiServer<span class="signature">(port, parent)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="StreamedResponse"><span class="type-signature"></span>new StreamedResponse<span class="signature">(responseObject, parent)</span><span class="type-signature"> &rarr; {<a href="StreamedResponse.html">StreamedResponse</a>}</span></h4>
     
 
     
@@ -85,13 +85,13 @@
 
         <tr>
             
-                <td class="name"><code>port</code></td>
+                <td class="name"><code>responseObject</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">ServerResponse</span>
 
 
             
@@ -101,7 +101,7 @@
 
             
 
-            <td class="description last">The port of this server</td>
+            <td class="description last">The Node server response object</td>
         </tr>
 
     
@@ -114,7 +114,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="Origami.html">Origami</a></span>
+<span class="param-type"><a href="RequestResponse.html">RequestResponse</a></span>
 
 
             
@@ -124,7 +124,7 @@
 
             
 
-            <td class="description last">The app which instantiated this server</td>
+            <td class="description last">The Origami response object that instantiated this StreamedResponse</td>
         </tr>
 
     
@@ -165,7 +165,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="class_OrigamiServer.js.html">class/OrigamiServer.js</a>, <a href="class_OrigamiServer.js.html#line14">line 14</a>
+        <a href="class_StreamedResponse.js.html">class/StreamedResponse.js</a>, <a href="class_StreamedResponse.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -190,6 +190,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="StreamedResponse.html">StreamedResponse</a></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -215,13 +233,13 @@
 
         
             
-<h4 class="name" id="listen"><span class="type-signature"></span>listen<span class="type-signature"></span></h4>
+<h4 class="name" id="commitHeaders"><span class="type-signature"></span>commitHeaders<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Create an HTTP server and listen.
+    Commit the current headers, sending them with the response. Headers can only be committed once.
 </div>
 
 
@@ -259,7 +277,131 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="class_OrigamiServer.js.html">class/OrigamiServer.js</a>, <a href="class_OrigamiServer.js.html#line25">line 25</a>
+        <a href="class_StreamedResponse.js.html">class/StreamedResponse.js</a>, <a href="class_StreamedResponse.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="end"><span class="type-signature"></span>end<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    End the response.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_StreamedResponse.js.html">class/StreamedResponse.js</a>, <a href="class_StreamedResponse.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="writeChunk"><span class="type-signature"></span>writeChunk<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Write a chunk to the response body.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_StreamedResponse.js.html">class/StreamedResponse.js</a>, <a href="class_StreamedResponse.js.html#line45">line 45</a>
     </li></ul></dd>
     
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: class/RouteStore.js</title>
+    <title>JSDoc: Source: class/StreamedResponse.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: class/RouteStore.js</h1>
+    <h1 class="page-title">Source: class/StreamedResponse.js</h1>
 
     
 
@@ -26,51 +26,69 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const { METHODS } = require("../shared/methods")
-const { RouteLeaf } = require("./RouteLeaf")
-const { removeTrailingSlash } = require("../shared/removeTrailingSlash")
-
-/**
- * The app route store.
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents a streamed response (which can be written in chunks, rather than at once)
+ * 
+ * @constructor
+ * @param {ServerResponse} responseObject - The Node server response object
+ * @param {RequestResponse} parent - The Origami response object that instantiated this StreamedResponse
+ * @returns {StreamedResponse}
  */
-class RouteStore {
-    constructor() {
-        this.RouteTree = {}
+class StreamedResponse {
+    constructor(responseObject, parent) {
+        /** @private */
+        this._response = responseObject
+        /** @private */
+        this._parent = parent
 
-        for(let method of METHODS) {
-            this.RouteTree[method] = new RouteLeaf()
-        }
+        /** @private */
+        this._readyForWrites = false
+
+        /** @private */
+        this._hasCommittedHeaders = false
+
+        return this
     }
 
     /**
-     * Mount a route to the store.
+     * Commit the current headers, sending them with the response. Headers can only be committed once.
      * 
-     * @param {Route} route - The route to mount
-     * @returns {RouteLeaf}
+     * @returns {StreamedResponse}
      */
-    mountRoute = function(route) {
-        return this.RouteTree[route.method].appendChild(removeTrailingSlash(route.path), route)
+    commitHeaders = function() {
+        if(this._hasCommittedHeaders == true) return;
+        this._response.writeHead(this._parent.status, this._parent.headers)
+
+        this._hasCommittedHeaders = true
+
+        return this
     }
 
     /**
-     * Get a route and metadata from the store.
+     * Write a chunk to the response body.
      * 
-     * @param {string} path - The path to search in the store for
-     * @param {string} method - The method of the route
-     * @returns {object} - The route, its includes, the query string of the path provided, and middlewares. 
+     * @param {Buffer} chunk - The buffer to write
+     * @returns {StreamedResponse}
      */
-    getRoute = function(path, method) {
-        let pathQuerySplit = path.split("?")
-        let query = pathQuerySplit[1]
-        let pathIsolated = pathQuerySplit[0]
+    writeChunk = async function(chunk) {
+        await this._response.write(chunk, () => {
+            return this
+        })
+    }
 
-        let {route, includes, middles} = this.RouteTree[method].getChild(pathIsolated, {}, {before: [], after: []})
-        
-        return {route: route, includes: includes, query: query, middles: middles}
+    /**
+     * End the response.
+     * 
+     * @returns {StreamedResponse}
+     */
+    end = function() {
+        this._response.end()
+
+        return this
     }
 }
 
-module.exports.RouteStore = RouteStore</code></pre>
+module.exports.StreamedResponse = StreamedResponse</code></pre>
         </article>
     </section>
 
