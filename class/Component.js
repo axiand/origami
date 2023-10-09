@@ -4,6 +4,7 @@
  * @constructor
  * @param {string} name - The name of the component
  * @param {class} recipe - The recipe function of this component
+ * @returns {Component}
  */
 class Component {
     constructor(name, recipe) {

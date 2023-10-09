@@ -16,6 +16,7 @@ function linkMethodToFunc(method) {
  * @constructor
  * @param {OrigamiServer} server - The server which was responsible for catching this request
  * @param {object} context - Additional context metadata
+ * @returns {RequestContext}
  */
 class RequestContext {
     constructor(server, context) {

@@ -2,6 +2,9 @@ const { RequestError } = require("./RequestError")
 
 /**
  * A request response object.
+ * 
+ * @constructor
+ * @returns {RequestResponse}
  */
 class RequestResponse {
     constructor() {

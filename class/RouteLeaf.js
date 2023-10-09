@@ -2,6 +2,9 @@ const {parsePathPart} = require("../shared/parsePathPart")
 
 /**
  * A route tree leaf.
+ * 
+ * @constructor
+ * @returns {RouteLeaf}
  */
 class RouteLeaf {
     constructor() {

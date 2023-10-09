@@ -1,5 +1,8 @@
 /**
  * The request handler. Responsible for interpreting response objects from resolver functions, and translating them to something understood by the server code.
+ * 
+ * @constructor
+ * @returns {RequestHandler}
  */
 class RequestHandler {
     constructor() {
