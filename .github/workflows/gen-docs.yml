@@ -12,11 +12,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: andstor/jsdoc-action@v1
         with:
-          source-dir: ./
+          source_dir: ./
           recurse: true
-          output-dir: ./doc
-          front-page: README.md
+          output_dir: ./doc
+          front_page: README.md
       - uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./doc
