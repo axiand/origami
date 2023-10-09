@@ -24,5 +24,7 @@ Origami is not just three other libraries in a trenchcoat - in fact - it's quite
 # Documentation
 You can find all of the documentation for Origami at [the origami-docs repo](https://github.com/axiand/origami-docs).
 
+An API reference is also available at [this page](https://axiand.github.io/origami/).
+
 # Getting Started
 See how to create your first API project with [the Getting Started guide.](https://github.com/axiand/origami-docs/blob/master/Getting%20Started/Intro.md)
