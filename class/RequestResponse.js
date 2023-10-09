@@ -1,4 +1,5 @@
 const { RequestError } = require("./RequestError")
+const { StreamedResponse } = require("./StreamedResponse")
 
 /**
  * A request response object.
@@ -24,11 +25,13 @@ class RequestResponse {
     /**
      * Write something to the response body.
      * 
-     * @param {*} body - The response body
+     * @param {object|Buffer|string} body - The response body
      * @param {number} status - The HTTP status
      * @returns {RequestResponse}
      */
     write = function(body, status) {
+        if(this.streamedResponse) throw new Error("Cannot use write() if a StreamedResponse is attached to the response")
+
         this.body = body
 
         if(status) this.status = status
@@ -113,6 +116,19 @@ class RequestResponse {
         let e = new RequestError(code, message, status)
 
         return e
+    }
+
+    /**
+     * Get a StreamedResponse object for this request, allowing you to write a response manually in chunks.
+     * 
+     * @returns {StreamedResponse}
+     */
+    getStreamedResponse = function() {
+        if(this.streamedResponse) return this.streamedResponse // If there is already a StreamedResponse for this request.
+
+        this.streamedResponse = new StreamedResponse(this._responseBase, this)
+
+        return this.streamedResponse
     }
 }
 

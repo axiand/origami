@@ -74,14 +74,19 @@ class OrigamiServer {
 
                     let { head, status, write } = this.handler.proc(resolved)
 
+                    if(res.writableEnded) return; // We shouldn't try to write headers, body etc. 
+                                                  // if the response has already been ended by other means 
+                                                  // e.g. with the StreamedResponse API
+
+                    // Write the things to be written and end the response.
+                    res.writeHead(status, head)
+                    res.write(write)
+                    res.end();
+
                     // Execute after middlewares
                     for(let fn of middles.after) {
                         await fn(ctx)
                     }
-
-                    res.writeHead(status, head)
-                    res.write(write)
-                    res.end();
                 } catch(e) {
                     if(e.constructor.name == 'RequestError') {
                         res.writeHead(e.status, {})
